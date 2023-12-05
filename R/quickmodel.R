@@ -1,6 +1,6 @@
 # quantitative
-quant_models <- c("lm", "knn", "rf", "rpart", "gbm", "glmnet", "xgbTree")
-quant_models <- c("lm", "rf")
+quant_models <- c("lm", "knn", "rf", "rpart", "gbm", "glmnet")
+quant_models <- c("lm", "rf", "rf", "rpart", "glmnet")
 
 # categorical
 categ_models <- c("knn", "rf", "rpart", "gbm", "glmnet", "xgbTree")
@@ -9,7 +9,7 @@ categ_models <- c("knn", "rf", "rpart", "gbm", "glmnet", "xgbTree")
 # main function
 quickmodel <- function(formula,
                        data, # all data
-                       metric = "Accuracy",
+                       metric = NULL,
                        methods = c(),
                        trControl = trainControl(),
                        tuneGrid = NULL,
@@ -38,8 +38,10 @@ quickmodel <- function(formula,
   train <- data[index, ]
   test <- data[-index, ]
 
-  # set evaluation metric
-  metric <- ifelse(is.factor(data[[y]]), "Accuracy", "RMSE")
+  # set evaluation metric if not specified
+  if (is.null(metric)) {
+    metric <- ifelse(is.factor(data[[y]]), "Accuracy", "RMSE")
+  }
 
   # specify which models to train
   if (is.factor(data[[y]])) {
@@ -48,12 +50,21 @@ quickmodel <- function(formula,
     methods <- quant_models
   }
 
-  print(methods)
+  # loading required packages
+  if ("gbm" %in% methods) {
+    require(gbm)
+  }
+
+  if ("xgbTree" %in% methods) {
+    require(xgboost)
+  }
+
+  print(methods) # temporary
 
   # model list
   models <- list()
 
-  # create models
+  # train models
   for (method in methods){
     model <- train(
       formula,
@@ -79,8 +90,6 @@ quickmodel <- function(formula,
 
 # Testing -----------------------------------------------------------------
 
-library(ggplot2)
-data(mpg)
 data(mtcars)
 x <- quickmodel(mpg ~ ., data = mtcars)
 
