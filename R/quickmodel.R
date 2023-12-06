@@ -1,22 +1,22 @@
-# quantitative
-quant_models <- c("lm", "knn", "rf", "rpart", "gbm", "glmnet")
-quant_models <- c("lm", "rf", "rf", "rpart", "glmnet")
-
-# categorical
-categ_models <- c("knn", "rf", "rpart", "gbm", "glmnet", "xgbTree")
-
-
 # main function
 quickmodel <- function(formula,
                        data, # all data
-                       metric = NULL,
-                       methods = c(),
+                       metric ,
+                       methods ,
                        trControl = trainControl(),
                        tuneGrid = NULL,
                        tuneLength = 3,
                        partition = 0.8,
+                       seed=1234,
                        ...
                        ) {
+
+  # quantitative
+  quant_models <- c("lm", "knn", "rf", "rpart", "gbm", "glmnet")
+
+  # categorical
+  categ_models <- c("glm", "knn", "rf", "rpart", "gbm", "glmnet")
+
 
   # if not installed then install
   if (!require(caret)) {
@@ -33,21 +33,24 @@ quickmodel <- function(formula,
   }
 
   # split data into train/test
-  set.seed(1234)
+  set.seed(seed)
   index <- createDataPartition(data[[y]], p = partition, list = FALSE)
   train <- data[index, ]
   test <- data[-index, ]
 
   # set evaluation metric if not specified
-  if (is.null(metric)) {
+  if (missing(metric)) {
     metric <- ifelse(is.factor(data[[y]]), "Accuracy", "RMSE")
+    print(metric)
   }
 
   # specify which models to train
-  if (is.factor(data[[y]])) {
-    methods <- categ_models
-  } else {
-    methods <- quant_models
+  if (missing(methods)){
+    if (is.factor(data[[y]])) {
+      methods <- categ_models
+    } else {
+      methods <- quant_models
+    }
   }
 
   # loading required packages
@@ -55,29 +58,25 @@ quickmodel <- function(formula,
     require(gbm)
   }
 
-  if ("xgbTree" %in% methods) {
-    require(xgboost)
-  }
-
-  print(methods) # temporary
-
   # model list
   models <- list()
 
   # train models
   for (method in methods){
+    set.seed(seed)
     model <- train(
       formula,
       data = train,
       method = method,
       metric = metric,
-      maximize = ifelse(metric == "RMSE", FALSE, TRUE),
       trControl = trControl,
       tuneLength = tuneLength,
       tuneGrid = tuneGrid,
       ...
     )
-
+    print("----------------")
+    print(method)
+    print(model)
     models[[method]] <- model
   }
 
@@ -89,9 +88,19 @@ quickmodel <- function(formula,
 
 
 # Testing -----------------------------------------------------------------
-
-data(mtcars)
-x <- quickmodel(mpg ~ ., data = mtcars)
-
-
-
+data("PIMA", package="regclass")
+x=quickmodel(Diabetes~., data = PIMA)
+x=quickmodel(Age~., data = PIMA)
+data("mtcars")
+y=quickmodel(mpg~., mtcars)
+# for (i in quant_models){
+  # model=train(mpg~.,
+  #             mtcars, # all data
+  #             metric = ifelse(is.factor(mtcars[["mpg"]]), "Accuracy", "RMSE"),
+  #             methods = "rpart",
+  #             trControl = trainControl(),
+  #             tuneGrid = NULL,
+  #             tuneLength = 3
+  # )
+  # print(model)
+# }
