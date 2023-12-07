@@ -1,4 +1,5 @@
-# main function
+
+
 quickmodel <- function(formula,
                        data, # all data
                        metric ,
@@ -11,13 +12,16 @@ quickmodel <- function(formula,
                        ...
                        ) {
 
-  #stop when the input dataset is too small
+  # stop when the input dataset is too small
   if (nrow(data)<100){
     stop("Dataset too small.")
   }
 
   # quantitative
-  quant_models <- c("lm", "knn", "rf", "rpart", "gbm", "glmnet")
+  quant_models <- c("lm", "knn", "rf",
+                    "rpart",
+                    "gbm",
+                    "glmnet")
 
   # categorical
   categ_models <- c("glm", "knn", "rf", "rpart", "gbm", "glmnet")
@@ -82,7 +86,10 @@ quickmodel <- function(formula,
   }
 
   # result
-  result <- list(train = train, test = test, models = models)
+  result <- list(train = train,
+                 test = test,
+                 methods = methods,
+                 models = models)
   class(result) <- "quickmodel"
   return(result)
 }
