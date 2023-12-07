@@ -11,6 +11,11 @@ quickmodel <- function(formula,
                        ...
                        ) {
 
+  #stop when the input dataset is too small
+  if (nrow(data)<100){
+    stop("Dataset too small.")
+  }
+
   # quantitative
   quant_models <- c("lm", "knn", "rf", "rpart", "gbm", "glmnet")
 
@@ -41,7 +46,6 @@ quickmodel <- function(formula,
   # set evaluation metric if not specified
   if (missing(metric)) {
     metric <- ifelse(is.factor(data[[y]]), "Accuracy", "RMSE")
-    print(metric)
   }
 
   # specify which models to train
@@ -74,9 +78,6 @@ quickmodel <- function(formula,
       tuneGrid = tuneGrid,
       ...
     )
-    print("----------------")
-    print(method)
-    print(model)
     models[[method]] <- model
   }
 
@@ -91,16 +92,7 @@ quickmodel <- function(formula,
 data("PIMA", package="regclass")
 x=quickmodel(Diabetes~., data = PIMA)
 x=quickmodel(Age~., data = PIMA)
+
 data("mtcars")
 y=quickmodel(mpg~., mtcars)
-# for (i in quant_models){
-  # model=train(mpg~.,
-  #             mtcars, # all data
-  #             metric = ifelse(is.factor(mtcars[["mpg"]]), "Accuracy", "RMSE"),
-  #             methods = "rpart",
-  #             trControl = trainControl(),
-  #             tuneGrid = NULL,
-  #             tuneLength = 3
-  # )
-  # print(model)
-# }
+
