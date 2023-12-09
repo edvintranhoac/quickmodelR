@@ -8,7 +8,7 @@ quickmodel <- function(formula,
                        tuneGrid = NULL,
                        tuneLength = 3,
                        partition = 0.8,
-                       seed=1234,
+                       seed = 1234,
                        ...
                        ) {
 
