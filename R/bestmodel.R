@@ -1,78 +1,53 @@
-# main function
-bestmodels <- function(models_list) {
-  best <- list()
+#' @title Choose the best model
+#' @description \code{bestmodels} will find the best models from a \code{quickmodel} object.
+#' @param quickmodel A \code{quickmodel} object
+#' @return The model with highest accuracy.
+#' @details
+#' This function will take the result from quickmodel and pick the best model.
+#' It will pick by the lowest RMSE for regression and highest Accuracy for classification.
+#' Notes: This function now only considers RMSE and Accuracy as the metric.
+#' @examples
+#' # classification models
+#' data("PIMA", package="regclass")
+#' x=quickmodel(Diabetes~., data = PIMA)
+#' bm=bestmodel(x)
+#' # regression models
+#' data(Boston, package="MASS")
+#' x=quickmodel(medv~., data = Boston)
+#' bm=bestmodel(x)
+#' @import caret
+#' @import randomForest
+#' @import rpart
+#' @import gbm
+#' @import plyr
+#' @import glmnet
+#' @import Matrix
+#' @rdname bestmodel
+#' @export
 
-  # Finding the best model for quantitative models (lowest RMSE)
-  quant_models <- c("lm", "knn", "rf", "rpart", "gbm", "glmnet")
-  quant_models_list <- Filter(function(model) model$method %in% quant_models, models_list$models)
-
-  if (length(quant_models_list) > 0) {
-    # Extract RMSE values for each model in quant_models_list
-    rmse_values <- unlist(lapply(quant_models_list, function(model) model$results$RMSE))
-
-    if (length(rmse_values) > 0) {
-      # Find the index of the minimum RMSE value
-      best_model_index <- which.min(rmse_values)
-
-      # Check which model has the lowest RMSE value
-      print(paste("Best RMSE:", rmse_values[best_model_index]))
-      print(quant_models_list)
-
-      # Retrieve the best model based on the index
-      best_quant_model <- quant_models_list[[best_model_index]]
-      print(best_quant_model)
-    } else {
-      print("No RMSE values found.")
+bestmodel <- function(quickmodel) {
+  models=quickmodel$models
+  methods=quickmodel$methods
+  if (quickmodel$metric=="RMSE"){
+    rmse_values=data.frame(method=character(), RMSE=numeric())
+    for (method in methods){
+      model=models[[method]]
+      rmse=mean(model$results$RMSE)
+      rmse_values=rbind(data.frame(method=method, RMSE=rmse), rmse_values)
     }
-  } else {
-    print("No models found for quantitative criteria.")
-  }
-
-
-  # Finding the best model for categorical models (highest Accuracy)
-  categ_models <- c("glm", "knn", "rf", "rpart", "gbm", "glmnet")
-  categ_models_list <- Filter(function(model) model$method %in% categ_models, models_list$models)
-
-  if (length(categ_models_list) > 0) {
-    # Extract Accuracy values for each model in categ_models_list
-    accuracy_values <- unlist(lapply(categ_models_list, function(model) model$results$Accuracy))
-
-    if (length(accuracy_values) > 0) {
-      # Find the index of the maximum Accuracy value
-      best_model_index <- which.max(accuracy_values)
-
-      # Retrieve the best model based on the index
-      best_categ_model <- categ_models_list[[best_model_index]]
-      best[["categorical"]] <- best_categ_model
-    } else {
-      best[["categorical"]] <- NULL
+    print(rmse_values)
+    best_model_index = which.min(rmse_values$RMSE)
+    best_model=models[[rmse_values$method[best_model_index]]]
+  }else if(quickmodel$metric=="Accuracy"){
+    accuracy_values=data.frame(method=character(), Accuracy=numeric())
+    for (method in methods){
+      model=models[[method]]
+      accuracy=mean(model$results$Accuracy)
+      accuracy_values=rbind(data.frame(method=method, Accuracy=accuracy), accuracy_values)
     }
-  } else {
-    best[["categorical"]] <- NULL
+    print(accuracy_values)
+    best_model_index = which.max(accuracy_values$Accuracy)
+    best_model=models[[accuracy_values$method[best_model_index]]]
   }
-
-  return(best)
+  return(best_model)
 }
-
-
-bestmodels(x)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
