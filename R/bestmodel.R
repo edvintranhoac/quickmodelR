@@ -28,26 +28,55 @@
 bestmodel <- function(quickmodel) {
   models <- quickmodel$models
   methods <- quickmodel$methods
-  if (quickmodel$metric == "RMSE"){
-    rmse_values <- data.frame(method=character(), RMSE=numeric())
-    for (method in methods){
-      model <- models[[method]]
-      rmse <- mean(model$results$RMSE)
-      rmse_values <- rbind(data.frame(method = method, RMSE = rmse), rmse_values)
-    }
-    print(rmse_values)
-    best_model_index <- which.min(rmse_values$RMSE)
-    best_model <- models[[rmse_values$method[best_model_index]]]
-  } else if(quickmodel$metric == "Accuracy"){
-    accuracy_values <- data.frame(method=character(), Accuracy=numeric())
-    for (method in methods){
-      model <- models[[method]]
-      accuracy <- mean(model$results$Accuracy)
-      accuracy_values <- rbind(data.frame(method = method, Accuracy = accuracy), accuracy_values)
-    }
-    print(accuracy_values)
-    best_model_index <- which.max(accuracy_values$Accuracy)
-    best_model <- models[[accuracy_values$method[best_model_index]]]
+  metric_values <- data.frame(method = character(), metric = numeric())
+  metricname <- quickmodel$metric
+  for (method in methods){
+    model <- models[[method]]
+    metric <- mean(model$results[[metricname]])
+    metric_values <- rbind(data.frame(method = method, metric = metric), metric_values)
   }
-  return(best_model)
+
+  max_metrics <- c("Accuracy", "ROC")
+  min_metrics <- c("RMSE")
+
+  if (metricname %in% max_metrics) {
+    best_model_index <- which.max(metric_values$metric)
+  } else if (metricname %in% min_metrics) {
+    best_model_index <- which.min(metric_values$metric)
+  }
+
+  names(metric_values)[2] <- metricname
+  print(metric_values)
+
+  best_model <- models[[metric_values$method[best_model_index]]]
 }
+
+best <- bestmodel(quickmodel)
+
+
+# bestmodel <- function(quickmodel) {
+#   models <- quickmodel$models
+#   methods <- quickmodel$methods
+#   if (quickmodel$metric == "RMSE"){
+#     rmse_values <- data.frame(method = character(), RMSE = numeric())
+#     for (method in methods){
+#       model <- models[[method]]
+#       rmse <- mean(model$results$RMSE)
+#       rmse_values <- rbind(data.frame(method = method, RMSE = rmse), rmse_values)
+#     }
+#     print(rmse_values)
+#     best_model_index <- which.min(rmse_values$RMSE)
+#     best_model <- models[[rmse_values$method[best_model_index]]]
+#   } else if(quickmodel$metric == "Accuracy"){
+#     accuracy_values <- data.frame(method=character(), Accuracy=numeric())
+#     for (method in methods){
+#       model <- models[[method]]
+#       accuracy <- mean(model$results$Accuracy)
+#       accuracy_values <- rbind(data.frame(method = method, Accuracy = accuracy), accuracy_values)
+#     }
+#     print(accuracy_values)
+#     best_model_index <- which.max(accuracy_values$Accuracy)
+#     best_model <- models[[accuracy_values$method[best_model_index]]]
+#   }
+#   return(best_model)
+# }
