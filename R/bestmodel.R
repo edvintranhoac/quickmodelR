@@ -51,8 +51,6 @@ bestmodel <- function(quickmodel) {
   best_model <- models[[metric_values$method[best_model_index]]]
 }
 
-best <- bestmodel(quickmodel)
-
 
 # bestmodel <- function(quickmodel) {
 #   models <- quickmodel$models
