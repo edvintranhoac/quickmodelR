@@ -2,3 +2,4 @@
 .gitignore
 .Rhistory
 .DS_Store
+inst/doc

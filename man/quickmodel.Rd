@@ -39,12 +39,13 @@ quickmodel(
 \item{...}{Optional parameters for \code{train} in \code{caret}}
 }
 \value{
-A list of class \code{quickmodel} with 4 components:
+A list of class \code{quickmodel} with 5 components:
 \describe{
 \item{train}{The train dataset}
 \item{test}{The test dataset}
 \item{models}{A list of models}
 \item{methods}{A character vector of machine learning models}
+\item{metric}{The selected metric. Default: "RMSE" for regression and "Accuracy" for classification.}
 }
 }
 \description{
