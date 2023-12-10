@@ -26,28 +26,28 @@
 #' @export
 
 bestmodel <- function(quickmodel) {
-  models=quickmodel$models
-  methods=quickmodel$methods
-  if (quickmodel$metric=="RMSE"){
-    rmse_values=data.frame(method=character(), RMSE=numeric())
+  models <- quickmodel$models
+  methods <- quickmodel$methods
+  if (quickmodel$metric == "RMSE"){
+    rmse_values <- data.frame(method=character(), RMSE=numeric())
     for (method in methods){
-      model=models[[method]]
-      rmse=mean(model$results$RMSE)
-      rmse_values=rbind(data.frame(method=method, RMSE=rmse), rmse_values)
+      model <- models[[method]]
+      rmse <- mean(model$results$RMSE)
+      rmse_values <- rbind(data.frame(method = method, RMSE = rmse), rmse_values)
     }
     print(rmse_values)
-    best_model_index = which.min(rmse_values$RMSE)
-    best_model=models[[rmse_values$method[best_model_index]]]
-  }else if(quickmodel$metric=="Accuracy"){
-    accuracy_values=data.frame(method=character(), Accuracy=numeric())
+    best_model_index <- which.min(rmse_values$RMSE)
+    best_model <- models[[rmse_values$method[best_model_index]]]
+  } else if(quickmodel$metric == "Accuracy"){
+    accuracy_values <- data.frame(method=character(), Accuracy=numeric())
     for (method in methods){
-      model=models[[method]]
-      accuracy=mean(model$results$Accuracy)
-      accuracy_values=rbind(data.frame(method=method, Accuracy=accuracy), accuracy_values)
+      model <- models[[method]]
+      accuracy <- mean(model$results$Accuracy)
+      accuracy_values <- rbind(data.frame(method = method, Accuracy = accuracy), accuracy_values)
     }
     print(accuracy_values)
-    best_model_index = which.max(accuracy_values$Accuracy)
-    best_model=models[[accuracy_values$method[best_model_index]]]
+    best_model_index <- which.max(accuracy_values$Accuracy)
+    best_model <- models[[accuracy_values$method[best_model_index]]]
   }
   return(best_model)
 }
