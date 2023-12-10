@@ -10,22 +10,24 @@
 #' @param partition The partition rate. Default: 0.8
 #' @param seed The seed to do a random partition. Default: 1234
 #' @param ... Optional parameters for \code{train} in \code{caret}
-#' @return A list of class \code{quickmodel} with 4 components:
+#' @return A list of class \code{quickmodel} with 5 components:
 #' \describe{
 #' \item{train}{The train dataset}
 #' \item{test}{The test dataset}
 #' \item{models}{A list of models}
 #' \item{methods}{A character vector of machine learning models}
+#' \item{metric}{The selected metric. Default: "RMSE" for regression and "Accuracy" for classification.}
 #' }
 #' @details
 #’ This function will take data and partition it into train and test datasets by the partition rate. It trains multiple machine learning models specified in methods.
 #’ Note: If the user chooses to use any method that are not mentioned in default methods, they have to install and load corresponding packages first.
 #' @examples
-#’ data("PIMA", package="regclass")
 #’ # classification models
+#' data("PIMA", package="regclass")
 #’ x=quickmodel(Diabetes~., data = PIMA)
 #’ # regression models
-#’ x=quickmodel(Age~., data = PIMA)
+#' data(Boston, package="MASS")
+#’ x=quickmodel(medv~., data = Boston)
 #' @import caret
 #' @import randomForest
 #' @import rpart
@@ -33,6 +35,8 @@
 #' @import plyr
 #' @import glmnet
 #' @import Matrix
+#' @import regclass
+#' @import MASS
 #' @rdname quickmodel
 #' @export
 
@@ -54,10 +58,7 @@ quickmodel <- function(formula,
   }
 
   # quantitative
-  quant_models <- c("lm", "knn", "rf",
-                    "rpart",
-                    "gbm",
-                    "glmnet")
+  quant_models <- c("lm", "knn", "rf", "rpart", "gbm", "glmnet")
 
   # categorical
   categ_models <- c("glm", "knn", "rf", "rpart", "gbm", "glmnet")
@@ -125,7 +126,9 @@ quickmodel <- function(formula,
   result <- list(train = train,
                  test = test,
                  methods = methods,
-                 models = models)
+                 models = models,
+                 metric = metric
+                 )
   class(result) <- "quickmodel"
   return(result)
 }
