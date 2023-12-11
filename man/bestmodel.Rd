@@ -23,11 +23,11 @@ Notes: This function now only considers RMSE and Accuracy as the metric.
 \examples{
 # classification model
 data(PIMA)
-class <- quickmodel(Diabetes~., data = PIMA)
+class <- quickmodel(Diabetes ~ ., data = PIMA)
 bm <- bestmodel(class)
 
 # regression model
 data(Boston)
-reg <- quickmodel(medv~., data = Boston)
+reg <- quickmodel(medv ~ ., data = Boston)
 bm <- bestmodel(reg)
 }

@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The `quickmodel` function builds multiple categorical and quantitative machine learning models with just one function call. Of the models created in `quickmodel`, the `bestmodel` function chooses the model that has the best perfomance criteria. 
+The `quickmodel` function trains multiple machine learning models with just one function call. Of the models created in `quickmodel`, the `bestmodel` function chooses the model that has the best perfomance criteria. 
 
 ```{r setup}
 library(quickmodelR)
@@ -22,7 +22,7 @@ library(quickmodelR)
 # Load in data to use for creating models
 data(PIMA)
 
-# Run quickmodel function to create all default models 
+# Run quickmodel function to train default models 
 result <- quickmodel(Diabetes ~ ., data = PIMA)
 
 # Run bestmodel function to retrieve the best model of the models created, based on the evaluation metric

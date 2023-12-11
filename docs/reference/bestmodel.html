@@ -73,7 +73,7 @@ Notes: This function now only considers RMSE and Accuracy as the metric.</p>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># classification model</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">PIMA</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">class</span> <span class="op">&lt;-</span> <span class="fu"><a href="quickmodel.html">quickmodel</a></span><span class="op">(</span><span class="va">Diabetes</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">PIMA</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">class</span> <span class="op">&lt;-</span> <span class="fu"><a href="quickmodel.html">quickmodel</a></span><span class="op">(</span><span class="va">Diabetes</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">PIMA</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: caret</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: ggplot2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: lattice</span>
@@ -91,7 +91,7 @@ Notes: This function now only considers RMSE and Accuracy as the metric.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># regression model</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Boston</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">reg</span> <span class="op">&lt;-</span> <span class="fu"><a href="quickmodel.html">quickmodel</a></span><span class="op">(</span><span class="va">medv</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">Boston</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">reg</span> <span class="op">&lt;-</span> <span class="fu"><a href="quickmodel.html">quickmodel</a></span><span class="op">(</span><span class="va">medv</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">Boston</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There were missing values in resampled performance measures.</span>
 <span class="r-in"><span><span class="va">bm</span> <span class="op">&lt;-</span> <span class="fu">bestmodel</span><span class="op">(</span><span class="va">reg</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The best model based on RMSE is rf</span>

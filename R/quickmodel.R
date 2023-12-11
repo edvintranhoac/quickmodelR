@@ -153,4 +153,3 @@ quickmodel <- function(formula,
   class(result) <- "quickmodel"
   return(result)
 }
-

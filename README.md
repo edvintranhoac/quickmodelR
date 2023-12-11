@@ -23,7 +23,7 @@ library(quickmodelR)
 # Load in data to use for creating models
 data(PIMA)
 
-# Run quickmodel function to create all default models 
+# Run quickmodel function to train default models 
 result <- quickmodel(Diabetes ~ ., data = PIMA)
 
 # Run bestmodel function to retrieve the best model of the models created, based on the evaluation metric

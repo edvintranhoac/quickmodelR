@@ -14,7 +14,6 @@ quickmodel(
   tuneLength = 3,
   partition = 0.8,
   seed = 1234,
-  verbose = FALSE,
   ...
 )
 }
@@ -55,9 +54,9 @@ A list of class \code{quickmodel} with 5 components:
 \examples{
 # classification model
 data(PIMA)
-class <- quickmodel(Diabetes~., data = PIMA)
+class <- quickmodel(Diabetes ~ ., data = PIMA)
 
 # regression model
 data(Boston)
-reg <- quickmodel(medv~., data = Boston)
+reg <- quickmodel(medv ~ ., data = Boston)
 }
