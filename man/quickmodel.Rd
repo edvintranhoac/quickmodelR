@@ -54,10 +54,10 @@ A list of class \code{quickmodel} with 5 components:
 }
 \examples{
 # classification model
-data("PIMA", package = "regclass")
+data(PIMA)
 class <- quickmodel(Diabetes~., data = PIMA)
 
 # regression model
-data(Boston, package = "MASS")
+data(Boston)
 reg <- quickmodel(medv~., data = Boston)
 }

@@ -8,12 +8,12 @@
 #' Notes: This function now only considers RMSE and Accuracy as the metric.
 #' @examples
 #' # classification model
-#' data("PIMA", package = "regclass")
+#' data(PIMA)
 #' class <- quickmodel(Diabetes~., data = PIMA)
 #' bm <- bestmodel(class)
 #'
 #' # regression model
-#' data(Boston, package = "MASS")
+#' data(Boston)
 #' reg <- quickmodel(medv~., data = Boston)
 #' bm <- bestmodel(reg)
 #' @import caret

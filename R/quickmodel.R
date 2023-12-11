@@ -23,11 +23,11 @@
 #’ Note: If the user chooses to use any method that are not mentioned in default methods, they have to install and load corresponding packages first.
 #' @examples
 #' # classification model
-#' data("PIMA", package = "regclass")
+#' data(PIMA)
 #' class <- quickmodel(Diabetes~., data = PIMA)
 #'
 #' # regression model
-#' data(Boston, package = "MASS")
+#' data(Boston)
 #' reg <- quickmodel(medv~., data = Boston)
 #' @import caret
 #' @import randomForest
