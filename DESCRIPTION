@@ -1,5 +1,5 @@
 Package: quickmodelR
-Title: Building multiple machine learning models all in one function
+Title: Build multiple machine learning models all in one function
 Version: 0.0.0.9000
 Authors@R: 
     person("Advait", "Prasad", ,"aprasad01@wesleyan.edu", role = c("aut", "cre"))

@@ -1,4 +1,4 @@
-#' @title Build multiple models
+#' @title Train multiple machine learning models
 #' @description \code{quickmodel} will build multiple machine learning models with one function call.
 #' @param formula An object of class "formula" (or one that can be coerced to that class): a symbolic description of the model to be fitted.
 #' @param data Data frame from which variables specified in formula are preferentially to be taken.
@@ -22,12 +22,13 @@
 #’ This function will take data and partition it into train and test datasets by the partition rate. It trains multiple machine learning models specified in methods.
 #’ Note: If the user chooses to use any method that are not mentioned in default methods, they have to install and load corresponding packages first.
 #' @examples
-#’ # classification models
-#' data("PIMA", package="regclass")
-#’ x=quickmodel(Diabetes~., data = PIMA)
-#’ # regression models
-#' data(Boston, package="MASS")
-#’ x=quickmodel(medv~., data = Boston)
+#' # classification model
+#' data("PIMA", package = "regclass")
+#' class <- quickmodel(Diabetes~., data = PIMA)
+#'
+#' # regression model
+#' data(Boston, package = "MASS")
+#' reg <- quickmodel(medv~., data = Boston)
 #' @import caret
 #' @import randomForest
 #' @import rpart
@@ -49,11 +50,12 @@ quickmodel <- function(formula,
                        tuneLength = 3,
                        partition = 0.8,
                        seed = 1234,
+                       verbose = FALSE,
                        ...
                        ) {
 
   # stop when the input dataset is too small
-  if (nrow(data)<100){
+  if (nrow(data) < 50){
     stop("Dataset too small.")
   }
 
@@ -64,10 +66,7 @@ quickmodel <- function(formula,
   categ_models <- c("glm", "knn", "rf", "rpart", "gbm", "glmnet")
 
 
-  # if not installed then install
-  if (!require(caret)) {
-    install.packages("caret")
-  }
+  # load caret
   require("caret")
 
   # extract y varname
@@ -89,8 +88,14 @@ quickmodel <- function(formula,
     metric <- ifelse(is.factor(data[[y]]), "Accuracy", "RMSE")
   }
 
+  # remove knn if dataset too large
+  if (nrow(data) >= 200){
+    quant_models <- quant_models[! quant_models %in% c("knn")]
+    categ_models <- categ_models[! categ_models %in% c("knn")]
+  }
+
   # specify which models to train
-  if (missing(methods)){
+  if (missing(methods)) {
     if (is.factor(data[[y]])) {
       methods <- categ_models
     } else {
@@ -108,18 +113,35 @@ quickmodel <- function(formula,
 
   # train models
   for (method in methods){
-    set.seed(seed)
-    model <- train(
-      formula,
-      data = train,
-      method = method,
-      metric = metric,
-      trControl = trControl,
-      tuneLength = tuneLength,
-      tuneGrid = tuneGrid,
-      ...
-    )
-    models[[method]] <- model
+    if (method == "gbm") {
+      set.seed(seed)
+      model <- train(
+        formula,
+        data = train,
+        method = method,
+        metric = metric,
+        trControl = trControl,
+        tuneLength = tuneLength,
+        tuneGrid = tuneGrid,
+        verbose = FALSE,
+        ...
+      )
+      models[[method]] <- model
+    } else {
+      set.seed(seed)
+      model <- train(
+        formula,
+        data = train,
+        method = method,
+        metric = metric,
+        trControl = trControl,
+        tuneLength = tuneLength,
+        tuneGrid = tuneGrid,
+        ...
+      )
+      models[[method]] <- model
+    }
+
   }
 
   # result
@@ -132,3 +154,4 @@ quickmodel <- function(formula,
   class(result) <- "quickmodel"
   return(result)
 }
+

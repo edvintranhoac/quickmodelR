@@ -2,7 +2,7 @@
 % Please edit documentation in R/quickmodel.R
 \name{quickmodel}
 \alias{quickmodel}
-\title{Build multiple models}
+\title{Train multiple machine learning models}
 \usage{
 quickmodel(
   formula,
@@ -14,6 +14,7 @@ quickmodel(
   tuneLength = 3,
   partition = 0.8,
   seed = 1234,
+  verbose = FALSE,
   ...
 )
 }
@@ -52,6 +53,11 @@ A list of class \code{quickmodel} with 5 components:
 \code{quickmodel} will build multiple machine learning models with one function call.
 }
 \examples{
-data("PIMA", package="regclass")
-data(Boston, package="MASS")
+# classification model
+data("PIMA", package = "regclass")
+class <- quickmodel(Diabetes~., data = PIMA)
+
+# regression model
+data(Boston, package = "MASS")
+reg <- quickmodel(medv~., data = Boston)
 }

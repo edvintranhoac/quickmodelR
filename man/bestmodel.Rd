@@ -7,13 +7,13 @@
 bestmodel(quickmodel)
 }
 \arguments{
-\item{quickmodel}{A \code{quickmodel} object}
+\item{quickmodel}{A \code{quickmodel} object.}
 }
 \value{
-The model with highest accuracy.
+The best model based on the evaluation metric.
 }
 \description{
-\code{bestmodels} will find the best models from a \code{quickmodel} object.
+\code{bestmodel} will find the best models from a \code{quickmodel} object.
 }
 \details{
 This function will take the result from quickmodel and pick the best model.
@@ -21,12 +21,13 @@ It will pick by the lowest RMSE for regression and highest Accuracy for classifi
 Notes: This function now only considers RMSE and Accuracy as the metric.
 }
 \examples{
-# classification models
-data("PIMA", package="regclass")
-x=quickmodel(Diabetes~., data = PIMA)
-bm=bestmodel(x)
-# regression models
-data(Boston, package="MASS")
-x=quickmodel(medv~., data = Boston)
-bm=bestmodel(x)
+# classification model
+data("PIMA", package = "regclass")
+class <- quickmodel(Diabetes~., data = PIMA)
+bm <- bestmodel(class)
+
+# regression model
+data(Boston, package = "MASS")
+reg <- quickmodel(medv~., data = Boston)
+bm <- bestmodel(reg)
 }
