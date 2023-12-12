@@ -3,7 +3,7 @@
 #' @param quickmodel A \code{quickmodel} object.
 #' @return The best model based on the evaluation metric.
 #' @details
-#' This function will take the result from quickmodel and pick the best model.
+#' This function will take the results from quickmodel and pick the best model.
 #' It will pick by the lowest RMSE for regression and highest Accuracy for classification.
 #' @examples
 #' # classification model

@@ -1,6 +1,8 @@
 
 # quickmodelR
 
+<img src="multi.png" width="200"/>
+
 <!-- badges: start -->
 <!-- badges: end -->
 
