@@ -1,10 +1,10 @@
 Package: quickmodelR
 Title: Build multiple machine learning models all in one function
 Version: 0.0.0.9000
-Authors@R: 
-    person("Advait", "Prasad", ,"aprasad01@wesleyan.edu", role = c("aut", "cre"))
-    person("Edvin", "Tran Hoac", ,"etranhoac@wesleyan.edu", role = c("aut", "cre"))
-    person("Simin", "Liu", ,"sliu02@wesleyan.edu", role = c("aut", "cre"))
+Authors@R:
+    c(person("Advait", "Prasad", ,"aprasad01@wesleyan.edu", role = c("aut")),
+    person("Edvin", "Tran Hoac", ,"etranhoac@wesleyan.edu", role = c("aut")),
+    person("Simin", "Liu", ,"sliu02@wesleyan.edu", role = c("aut", "cre")))
 Description: The quickmodel function trains multiple machine learning models with just one function call. Of the models created in quickmodel, the bestmodel function chooses the model that has the best perfomance criteria
 License: MIT + file LICENSE
 Encoding: UTF-8

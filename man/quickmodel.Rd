@@ -24,7 +24,7 @@ quickmodel(
 
 \item{metric}{A string that specifies what summary metric will be used to select the optimal model. By default, possible values are "RMSE" and "Rsquared" for regression and "Accuracy" for classification.}
 
-\item{methods}{A character vector specifying which classification or regression model to use. By default, possible values are \code{c("lm", "knn", "rf", "rpart", "gbm", "glmnet")} for regression and \code{c("glm", "knn", "rf", "rpart", "gbm", "glmnet")} for classification.}
+\item{methods}{A character vector specifying which classification or regression model to use. By default, possible values are \code{c("lm", "knn", "rf", "rpart", "gbm", "glmnet")} for regression and \code{c("glm", "knn", "rf", "rpart", "gbm")} for classification.}
 
 \item{trControl}{A list of values that define how this function acts. Default: trainControl()}
 

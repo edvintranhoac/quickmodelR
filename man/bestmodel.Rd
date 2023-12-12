@@ -13,12 +13,11 @@ bestmodel(quickmodel)
 The best model based on the evaluation metric.
 }
 \description{
-\code{bestmodel} will find the best models from a \code{quickmodel} object.
+\code{bestmodel} will retrieve the best model from a \code{quickmodel} object.
 }
 \details{
 This function will take the result from quickmodel and pick the best model.
 It will pick by the lowest RMSE for regression and highest Accuracy for classification.
-Notes: This function now only considers RMSE and Accuracy as the metric.
 }
 \examples{
 # classification model

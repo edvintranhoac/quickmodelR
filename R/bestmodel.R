@@ -1,11 +1,10 @@
 #' @title Choose the best model
-#' @description \code{bestmodel} will find the best models from a \code{quickmodel} object.
+#' @description \code{bestmodel} will retrieve the best model from a \code{quickmodel} object.
 #' @param quickmodel A \code{quickmodel} object.
 #' @return The best model based on the evaluation metric.
 #' @details
 #' This function will take the result from quickmodel and pick the best model.
 #' It will pick by the lowest RMSE for regression and highest Accuracy for classification.
-#' Notes: This function now only considers RMSE and Accuracy as the metric.
 #' @examples
 #' # classification model
 #' data(PIMA)
