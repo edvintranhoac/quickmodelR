@@ -27,7 +27,6 @@ A data frame with 506 rows and 14 variables:
 Boston
 }
 \description{
-The \code{Boston} data frame has 506 rows and 14 columns
-#'
+The \code{Boston} data frame has 506 rows and 14 columns.
 }
 \keyword{datasets}

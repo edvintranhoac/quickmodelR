@@ -1,8 +1,7 @@
 #' @title Boston Dataset
 #'
 #' @description
-#' The `Boston` data frame has 506 rows and 14 columns
-#' #'
+#' The `Boston` data frame has 506 rows and 14 columns.
 #' @format A data frame with 506 rows and 14 variables:
 #' \describe{
 #' \item{\code{crim}}{per capita crime rate by town.}
